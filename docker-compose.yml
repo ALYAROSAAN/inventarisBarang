@@ -1,0 +1,31 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # Service untuk aplikasi web Python
+  web:
+    build: ./app  # Menggunakan Dockerfile di dalam folder ./app
+    ports:
+      - "5001:5000" # Mapping port: HOST:CONTAINER
+    volumes:
+      # Ini untuk 'live reload' (Poin 6)
+      # Perubahan di folder ./app lokal akan langsung terlihat di container
+      - ./app:/app
+    env_file:
+      - ./.env # Memuat variabel dari file .env (Poin 7)
+    depends_on:
+      - db # Memastikan service 'db' jalan duluan sebelum 'web'
+
+  # Service untuk database PostgreSQL
+  db:
+    image: postgres:14-alpine
+    volumes:
+      # Ini untuk persistensi data (Poin 4)
+      # Data database akan tersimpan di volume 'db_data'
+      # walaupun container dimatikan
+      - db_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env # Memuat variabel dari file .env (Poin 7)
+
+volumes:
+  db_data: # Mendefinisikan volume yang akan digunakan

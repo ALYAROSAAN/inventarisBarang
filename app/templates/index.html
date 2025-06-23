@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventaris Barang organisasi</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; background-color: #f4f4f9; }
+        h1 { color: #333; }
+        .container { background: white; padding: 2em; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        form { margin-bottom: 2em; }
+        input[type="text"], input[type="number"] { padding: 8px; margin-right: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 8px 15px; border: none; background-color: #8b06b7; color: white; border-radius: 4px; cursor: pointer; }
+        button.delete { background-color: #dc3545; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inventaris Barang Menwa 601/NRT ULM</h1>
+
+        <form action="{{ url_for('add') }}" method="post">
+            <input type="text" name="nama_barang" placeholder="Nama Barang" required>
+            <input type="number" name="jumlah" placeholder="Jumlah" min="0" required>
+            <button type="submit">Tambah Barang</button>
+        </form>
+
+        <hr>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Barang</th>
+                    <th>Jumlah</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>
+                        <form action="{{ url_for('delete', item_id=item[0]) }}" method="post" style="display: inline;">
+                            <button type="submit" class="delete">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
