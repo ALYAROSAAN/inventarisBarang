@@ -24,5 +24,3 @@ jobs:
         context: ./app
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/inventarisBarang:latest
-
-        # INI KOMENTAR UNTUK TEST
